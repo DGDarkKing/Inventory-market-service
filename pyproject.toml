@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "inventory-market-service"
+version = "0.1.0"
+description = ""
+authors = ["Danila Deryavko <deryavkodan@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+alembic = "^1.13.3"
+asyncpg = "^0.30.0"
+pydantic-settings = "^2.6.0"
+pydantic = "^2.9.2"
+fastapi = "^0.115.3"
+uvicorn = "^0.32.0"
+sqlalchemy = "^2.0.36"
+httpx = "^0.27.2"
+python-jose = "^3.3.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^8.3.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
