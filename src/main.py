@@ -2,16 +2,23 @@
 
 from fastapi import FastAPI
 
-from routes.supply import router as supply_router
 from settings import app_settings
+from routes import *
 
 app = FastAPI(
     title=app_settings.name,
     debug=app_settings.debug,
 )
 
+
 app.include_router(
-    supply_router,
+    warehouse_router,
+)
+app.include_router(
+    trading_floor_router,
+)
+app.include_router(
+    trading_floor_router,
 )
 
 
