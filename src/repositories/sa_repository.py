@@ -27,19 +27,21 @@ class SaAsyncRepository(IRepository):
     async def delete_by_condition(self, condition: IConditionSpecification = None):
         stmt = delete(self._MODEL)
         if condition:
-            stmt = stmt.where(condition.complete())
+            if condition_query := condition.complete():
+                stmt = stmt.where(condition_query)
         await self._session.execute(stmt)
 
     async def get_all(
-            self,
-            condition: IConditionSpecification = None,
-            join: IJoinSpecification = None,
-            order: IOrderSpecification = None,
-            limit: int = 0
+        self,
+        condition: IConditionSpecification = None,
+        join: IJoinSpecification = None,
+        order: IOrderSpecification = None,
+        limit: int = 0,
     ) -> Sequence[ModelBase]:
         query = select(self._MODEL)
         if condition:
-            query = query.where(condition.complete())
+            if condition_query := condition.complete():
+                query = query.where(condition_query)
         if join:
             query = query.options(*join.complete())
         if order:
@@ -51,10 +53,10 @@ class SaAsyncRepository(IRepository):
         return res.scalars().all()
 
     async def get(
-            self,
-            condition: IConditionSpecification = None,
-            join: IJoinSpecification = None,
-            order: IOrderSpecification = None,
+        self,
+        condition: IConditionSpecification = None,
+        join: IJoinSpecification = None,
+        order: IOrderSpecification = None,
     ) -> ModelBase | None:
         res = await self.get_all(condition, join, order, limit=1)
         return res[0] if res else None

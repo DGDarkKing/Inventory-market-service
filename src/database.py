@@ -8,7 +8,6 @@ from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, Asyn
 from sqlalchemy.orm import mapped_column, DeclarativeBase, Mapped
 from typing_extensions import Annotated, AsyncGenerator
 
-from schemas.supply_states import SupplyState
 from settings import app_settings
 
 async_engine = create_async_engine(
@@ -33,7 +32,6 @@ class ModelBase(DeclarativeBase):
     type_annotation_map = {
         dict[str, Any]: JSON,
         list[Any]: JSON,
-        SupplyState: Enum(SupplyState),
     }
 
 

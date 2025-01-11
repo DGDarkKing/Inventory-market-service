@@ -8,13 +8,16 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from database import ModelBaseUuid
 
 if TYPE_CHECKING:
-    from models.warehouse_goods import WarehouseGoodsOrm
+    from models.goods import GoodsOrm
+    from models.warehouse_goods import WarehouseGoodsAggregationOrm
     from models.supplies import SupplyOrm
     from models.trading_floor_deliveries import TradingFloorDeliveryOrm
 
 
 class GoodsExpirationOrm(ModelBaseUuid):
     __tablename__ = "goods_expirations"
+
+    user_id: Mapped[UUID]
 
     supply_id: Mapped[UUID] = mapped_column(
         ForeignKey("supplies.id"),
@@ -24,10 +27,10 @@ class GoodsExpirationOrm(ModelBaseUuid):
     )
 
     goods_id: Mapped[UUID] = mapped_column(
-        ForeignKey("warehouse_goods.id"),
+        ForeignKey("goods.id"),
     )
-    goods: Mapped["WarehouseGoodsOrm"] = relationship(
-        back_populates="goods_expirations",
+    goods: Mapped["GoodsOrm"] = relationship(
+        back_populates="warehouse_goods",
     )
 
     quantity: Mapped[float]

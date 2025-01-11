@@ -6,7 +6,6 @@ from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from database import ModelBaseUuid
-from schemas.supply_states import SupplyState
 
 if TYPE_CHECKING:
     from models.goods_expirations import GoodsExpirationOrm
@@ -23,9 +22,6 @@ class SupplyOrm(ModelBaseUuid):
     goods: Mapped["GoodsOrm"] = relationship(
         back_populates="supplies",
     )
-
-    manager_id: Mapped[UUID]
-    storekeeper_id: Mapped[UUID]
 
     created_at: Mapped[datetime]
     updated_at: Mapped[datetime]

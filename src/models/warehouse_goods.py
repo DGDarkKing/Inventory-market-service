@@ -12,8 +12,8 @@ if TYPE_CHECKING:
     from models.goods_expirations import GoodsExpirationOrm
 
 
-class WarehouseGoodsOrm(ModelBase):
-    __tablename__ = "warehouse_goods"
+class WarehouseGoodsAggregationOrm(ModelBase):
+    __tablename__ = "warehouse_goods_aggregations"
 
     id: Mapped[UUID] = mapped_column(
         ForeignKey("goods.id"),
@@ -21,9 +21,6 @@ class WarehouseGoodsOrm(ModelBase):
     )
     remains: Mapped[float]
 
-    goods_meta: Mapped["GoodsOrm"] = relationship(
-        back_populates="warehouse_goods",
-    )
-    goods_expirations: Mapped[list["GoodsExpirationOrm"]] = relationship(
-        back_populates="goods"
+    goods: Mapped["GoodsOrm"] = relationship(
+        back_populates="warehouse_aggregated_goods",
     )

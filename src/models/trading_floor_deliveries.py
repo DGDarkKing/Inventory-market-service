@@ -23,10 +23,10 @@ class TradingFloorDeliveryOrm(ModelBaseUuid):
     )
 
     goods_id: Mapped[UUID] = mapped_column(
-        ForeignKey("trading_floor_goods.id"),
+        ForeignKey("goods.id"),
     )
     goods: Mapped["TradingFloorGoodsOrm"] = relationship(
-        back_populates="goods_expirations",
+        back_populates="trading_floor_goods",
     )
 
     quantity: Mapped[float]

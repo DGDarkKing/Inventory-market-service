@@ -8,7 +8,9 @@ from database import ModelBaseUuid
 
 if TYPE_CHECKING:
     from models.supplies import SupplyOrm
-    from models.warehouse_goods import WarehouseGoodsOrm
+    from models.goods_expirations import GoodsExpirationOrm
+    from models.warehouse_goods import WarehouseGoodsAggregationOrm
+    from models.trading_floor_deliveries import TradingFloorDeliveryOrm
     from models.trading_floor_goods import TradingFloorGoodsOrm
 
 
@@ -32,9 +34,15 @@ class GoodsOrm(ModelBaseUuid):
     supplies: Mapped[list["SupplyOrm"]] = relationship(
         back_populates="goods",
     )
-    warehouse_goods: Mapped["WarehouseGoodsOrm"] = relationship(
-        back_populates="goods_meta",
+    warehouse_goods: Mapped["GoodsExpirationOrm"] = relationship(
+        back_populates="goods",
     )
-    trading_floor_goods: Mapped["TradingFloorGoodsOrm"] = relationship(
-        back_populates="goods_meta",
+    warehouse_aggregated_goods: Mapped["WarehouseGoodsAggregationOrm"] = relationship(
+        back_populates="goods",
+    )
+    trading_floor_goods: Mapped["TradingFloorDeliveryOrm"] = relationship(
+        back_populates="goods",
+    )
+    trading_floor_aggregated_goods: Mapped["TradingFloorGoodsOrm"] = relationship(
+        back_populates="goods",
     )

@@ -8,6 +8,7 @@ from auth.open_id_connect import create_openid_connect
 from auth.role_based_access import RoleAccess
 from auth.user_model import UserModel
 from database import async_session_maker
+from services import WarehouseService
 from settings import app_settings
 from utils.unit_of_work import UnitOfWork
 
@@ -40,3 +41,12 @@ def RoleAccessDeps(*roles: str):
         return await role_accessor(user)
 
     return Annotated[dict | UserModel, Depends(wrapped)]
+
+
+def create_warehouse_service(
+    uow: UnitOfWorkDeps,
+) -> WarehouseService:
+    return WarehouseService(uow)
+
+
+WarehouseServiceDeps = Annotated[WarehouseService, Depends(create_warehouse_service)]

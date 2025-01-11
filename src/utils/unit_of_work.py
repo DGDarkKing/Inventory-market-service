@@ -17,7 +17,7 @@ class UnitOfWork:
     supply_repo: SupplyRepository
     trading_floor_delivery_repo: TradingFloorDeliveryRepository
     trading_floor_goods_repo: TradingFloorGoodsRepository
-    warehouse_goods_repo: WarehouseGoodsRepository
+    warehouse_goods_aggregation_repo: WarehouseGoodsRepository
     outbox_repo: OutboxRepository
 
     def __init__(self, session: AsyncSession):
@@ -35,7 +35,9 @@ class UnitOfWork:
                 self.__session
             )
             self.trading_floor_goods_repo = TradingFloorGoodsRepository(self.__session)
-            self.warehouse_goods_repo = WarehouseGoodsRepository(self.__session)
+            self.warehouse_goods_aggregation_repo = WarehouseGoodsRepository(
+                self.__session
+            )
             self.outbox_repo = OutboxRepository(self.__session)
 
     async def __aenter__(self):
@@ -55,7 +57,7 @@ class UnitOfWork:
             del self.supply_repo
             del self.trading_floor_delivery_repo
             del self.trading_floor_goods_repo
-            del self.warehouse_goods_repo
+            del self.warehouse_goods_aggregation_repo
             del self.outbox_repo
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):

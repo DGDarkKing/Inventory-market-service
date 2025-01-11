@@ -21,7 +21,7 @@ router = APIRouter(
 #
 # get one
 @router.get("/{id}")
-async def get_goods_expiration(
+async def get_goods(
     id: UUID,
     user: RoleAccessDeps(Roles.MANAGER, Roles.CASHIER),
 ) -> TradingGoodsFullData:
@@ -36,7 +36,7 @@ async def get_goods_expiration(
 async def get_goods_expiration(
     user: RoleAccessDeps(Roles.MANAGER, Roles.CASHIER),
     goods_expiration_filter: TradingGoodsFilter,
-    paginator: Paginator,
+    # paginator: Paginator,
 ) -> list[TradingGoods]:
     # TODO
     pass
@@ -44,7 +44,7 @@ async def get_goods_expiration(
 
 # get expired
 @router.get("/expired")
-async def get_goods_expirations(
+async def get_goods_expired(
     user: RoleAccessDeps(Roles.MANAGER, Roles.CASHIER),
     goods_expiration_filter: TradingGoodsExpiredFilter,
     paginator: Paginator,

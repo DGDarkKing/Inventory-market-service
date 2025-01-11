@@ -21,9 +21,6 @@ class TradingFloorGoodsOrm(ModelBase):
     )
     remains: Mapped[float]
 
-    goods_meta: Mapped["GoodsOrm"] = relationship(
-        back_populates="trading_floor_goods",
-    )
-    trading_floor_deliveries: Mapped[list["GoodsExpirationOrm"]] = relationship(
-        back_populates="goods"
+    goods: Mapped["GoodsOrm"] = relationship(
+        back_populates="trading_floor_aggregated_goods",
     )
