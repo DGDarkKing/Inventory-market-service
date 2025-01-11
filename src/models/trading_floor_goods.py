@@ -12,8 +12,8 @@ if TYPE_CHECKING:
     from models.goods_expirations import GoodsExpirationOrm
 
 
-class TradingFloorGoodsOrm(ModelBase):
-    __tablename__ = "trading_floor_goods"
+class TradingFloorGoodsAggregationOrm(ModelBase):
+    __tablename__ = "trading_floor_goods_aggregations"
 
     id: Mapped[UUID] = mapped_column(
         ForeignKey("goods.id"),

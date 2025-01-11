@@ -16,7 +16,7 @@ class UnitOfWork:
     goods_expiration_repo: GoodsExpirationRepository
     supply_repo: SupplyRepository
     trading_floor_delivery_repo: TradingFloorDeliveryRepository
-    trading_floor_goods_repo: TradingFloorGoodsRepository
+    trading_floor_goods_aggregation_repo: TradingFloorGoodsRepository
     warehouse_goods_aggregation_repo: WarehouseGoodsRepository
     outbox_repo: OutboxRepository
 
@@ -34,7 +34,9 @@ class UnitOfWork:
             self.trading_floor_delivery_repo = TradingFloorDeliveryRepository(
                 self.__session
             )
-            self.trading_floor_goods_repo = TradingFloorGoodsRepository(self.__session)
+            self.trading_floor_goods_aggregation_repo = TradingFloorGoodsRepository(
+                self.__session
+            )
             self.warehouse_goods_aggregation_repo = WarehouseGoodsRepository(
                 self.__session
             )
@@ -56,7 +58,7 @@ class UnitOfWork:
             del self.goods_expiration_repo
             del self.supply_repo
             del self.trading_floor_delivery_repo
-            del self.trading_floor_goods_repo
+            del self.trading_floor_goods_aggregation_repo
             del self.warehouse_goods_aggregation_repo
             del self.outbox_repo
 

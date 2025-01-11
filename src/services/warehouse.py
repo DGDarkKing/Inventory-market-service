@@ -1,7 +1,7 @@
 from datetime import datetime
 from uuid import UUID
 
-from pydantic import ConfigDict, TypeAdapter
+from pydantic import TypeAdapter
 
 from conditions.expiration_goods import (
     GoodsExpirationById,
@@ -62,8 +62,7 @@ class WarehouseService:
         )
         return TypeAdapter(
             list[GoodsExpiration],
-            config=ConfigDict(from_attributes=True),
-        ).validate_python(model_list)
+        ).validate_python(model_list, from_attributes=True)
 
     async def get_expired_goods_list(
         self,
@@ -79,8 +78,7 @@ class WarehouseService:
         )
         return TypeAdapter(
             list[GoodsExpiration],
-            config=ConfigDict(from_attributes=True),
-        ).validate_python(model_list)
+        ).validate_python(model_list, from_attributes=True)
 
     async def accept_supply_goods(
         self,
@@ -103,7 +101,7 @@ class WarehouseService:
                 WarehouseGoodsAggregationById(supply.goods_id)
             )
         )
-        aggregation.remains += supply.quantity
+        aggregation.remains += goods_expiration.quantity
         goods = GoodsExpirationOrm(
             user_id=user_id,
             supply_id=goods_expiration.supply_id,

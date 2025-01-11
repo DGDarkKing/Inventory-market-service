@@ -3,7 +3,7 @@ from models.goods_expirations import GoodsExpirationOrm
 from models.outbox import OutboxOrm
 from models.supplies import SupplyOrm
 from models.trading_floor_deliveries import TradingFloorDeliveryOrm
-from models.trading_floor_goods import TradingFloorGoodsOrm
+from models.trading_floor_goods import TradingFloorGoodsAggregationOrm
 from models.warehouse_goods import WarehouseGoodsAggregationOrm
 from repositories.sa_repository import SaAsyncRepository
 
@@ -25,7 +25,7 @@ class TradingFloorDeliveryRepository(SaAsyncRepository):
 
 
 class TradingFloorGoodsRepository(SaAsyncRepository):
-    _MODEL = TradingFloorGoodsOrm
+    _MODEL = TradingFloorGoodsAggregationOrm
 
 
 class WarehouseGoodsRepository(SaAsyncRepository):

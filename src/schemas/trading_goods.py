@@ -4,17 +4,9 @@ from uuid import UUID
 from pydantic import BaseModel, Field, AliasPath
 
 
-class ExpirationGoodsMeta(BaseModel):
+class TradingGoodsBase(BaseModel):
     id: UUID
-    name: str = Field(
-        validation_alias=AliasPath("goods_meta", "name"),
-    )
-    remains: float
-
-
-class GoodsExpirationBase(BaseModel):
-    id: UUID
-    supply_id: UUID = Field(serialization_alias="supply")
+    goods_expiration_id: UUID = Field(serialization_alias="goods_expiration")
     goods_id: UUID = Field(serialization_alias="goods")
     quantity: float
     remains: float
@@ -22,11 +14,11 @@ class GoodsExpirationBase(BaseModel):
     is_decommissioned: bool = Field(serialization_alias="isDecommissioned")
 
 
-class GoodsExpiration(GoodsExpirationBase):
+class TradingGoods(TradingGoodsBase):
     pass
 
 
-class GoodsExpirationFullData(GoodsExpirationBase):
+class TradingGoodsFullData(TradingGoodsBase):
     user_id: UUID = Field(serialization_alias="user")
     created_at: datetime
     updated_at: datetime

@@ -12,7 +12,7 @@ class GoodsExpirationById(SqlAlchemySpecification):
 
 class GoodsExpirationByGoodsName(SqlAlchemySpecification):
     def __init__(self, name: str):
-        super().__init__(GoodsExpirationOrm.goods.goods_meta.name.like(name))
+        super().__init__(GoodsExpirationOrm.goods.name.like(name))
 
 
 class GoodsExpirationBySupply(SqlAlchemySpecification):

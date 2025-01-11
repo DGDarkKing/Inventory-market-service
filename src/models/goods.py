@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     from models.goods_expirations import GoodsExpirationOrm
     from models.warehouse_goods import WarehouseGoodsAggregationOrm
     from models.trading_floor_deliveries import TradingFloorDeliveryOrm
-    from models.trading_floor_goods import TradingFloorGoodsOrm
+    from models.trading_floor_goods import TradingFloorGoodsAggregationOrm
 
 
 class GoodsOrm(ModelBaseUuid):
@@ -43,6 +43,8 @@ class GoodsOrm(ModelBaseUuid):
     trading_floor_goods: Mapped["TradingFloorDeliveryOrm"] = relationship(
         back_populates="goods",
     )
-    trading_floor_aggregated_goods: Mapped["TradingFloorGoodsOrm"] = relationship(
+    trading_floor_aggregated_goods: Mapped[
+        "TradingFloorGoodsAggregationOrm"
+    ] = relationship(
         back_populates="goods",
     )
