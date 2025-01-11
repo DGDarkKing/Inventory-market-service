@@ -18,6 +18,7 @@ from schemas.goods_expitration_filters import (
     GoodsExpirationFilter,
     GoodsExpiredFilter,
 )
+from schemas.product_count import ProductCount
 from utils.unit_of_work import UnitOfWork
 
 
@@ -27,6 +28,16 @@ class WarehouseService:
         uow: UnitOfWork,
     ):
         self.__uow = uow
+
+    async def get_product_count(self) -> list[ProductCount]:
+        aggregators: list[
+            WarehouseGoodsAggregationOrm
+        ] = await self.__uow.warehouse_goods_aggregation_repo.get_all()
+        result = []
+        if aggregators:
+            adapter = TypeAdapter(list[ProductCount])
+            result = adapter.validate_python(aggregators, from_attributes=True)
+        return result
 
     async def get_goods(
         self,

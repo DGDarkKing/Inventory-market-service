@@ -53,6 +53,17 @@ async def get_goods_expired(
     pass
 
 
+@router.get("/count", dependencies=[RoleAccessDeps(Roles.MANAGER, Roles.STOREKEEPER)])
+async def get_product_count(
+    uow: UnitOfWorkDeps,
+    warehouse_service: WarehouseServiceDeps,
+) -> list[ProductCount]:
+    async with uow:
+        result = dsadsadsadasd.get_product_count()
+        await uow.commit()
+    return result
+
+
 # decommission
 @router.put("/{id}")
 async def decommission_goods(

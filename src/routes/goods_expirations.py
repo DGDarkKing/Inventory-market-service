@@ -6,6 +6,7 @@ from auth.roles import Roles
 from dependencies import RoleAccessDeps, WarehouseServiceDeps, UnitOfWorkDeps
 from schemas.goods_expitration import GoodsExpirationFullData, GoodsExpiration
 from schemas.goods_expitration_filters import GoodsExpirationFilter, GoodsExpiredFilter
+from schemas.product_count import ProductCount
 
 router = APIRouter(
     prefix="/goods/expirations",
@@ -20,7 +21,9 @@ async def get_goods_expiration(
     warehouse_service: WarehouseServiceDeps,
 ) -> GoodsExpirationFullData | None:
     async with uow:
-        return warehouse_service.get_goods(id)
+        result = warehouse_service.get_goods(id)
+        await uow.commit()
+    return result
 
 
 # get list by supply
@@ -34,7 +37,9 @@ async def get_goods_expiration_list(
     warehouse_service: WarehouseServiceDeps,
 ) -> list[GoodsExpiration]:
     async with uow:
-        return warehouse_service.get_goods_list(goods_expiration_filter)
+        result = warehouse_service.get_goods_list(goods_expiration_filter)
+        await uow.commit()
+    return result
 
 
 @router.get("/expired", dependencies=[RoleAccessDeps(Roles.MANAGER, Roles.STOREKEEPER)])
@@ -45,7 +50,20 @@ async def get_expired_goods(
     warehouse_service: WarehouseServiceDeps,
 ) -> list[GoodsExpiration]:
     async with uow:
-        return warehouse_service.get_expired_goods_list(goods_expiration_filter)
+        result = warehouse_service.get_expired_goods_list(goods_expiration_filter)
+        await uow.commit()
+    return result
+
+
+@router.get("/count", dependencies=[RoleAccessDeps(Roles.MANAGER, Roles.STOREKEEPER)])
+async def get_product_count(
+    uow: UnitOfWorkDeps,
+    warehouse_service: WarehouseServiceDeps,
+) -> list[ProductCount]:
+    async with uow:
+        result = warehouse_service.get_product_count()
+        await uow.commit()
+    return result
 
 
 @router.post("")

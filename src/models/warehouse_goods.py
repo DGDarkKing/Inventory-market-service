@@ -1,15 +1,13 @@
-from datetime import datetime
 from typing import TYPE_CHECKING
 from uuid import UUID
 
-from sqlalchemy import String, ForeignKey
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from database import ModelBaseUuid, ModelBase
+from database import ModelBase
 
 if TYPE_CHECKING:
     from models.goods import GoodsOrm
-    from models.goods_expirations import GoodsExpirationOrm
 
 
 class WarehouseGoodsAggregationOrm(ModelBase):
