@@ -28,6 +28,8 @@ class GoodsOrm(ModelBaseUuid):
         unique=True,
     )
 
+    is_ready_for_sale: Mapped[bool]
+
     created_at: Mapped[datetime]
     updated_at: Mapped[datetime]
 

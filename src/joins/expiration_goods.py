@@ -5,6 +5,6 @@ from models.goods_expirations import GoodsExpirationOrm
 from models.warehouse_goods import WarehouseGoodsAggregationOrm
 
 
-class GoodsExpirationJoinWarehouseGoods(SaJoinSpecification):
+class GoodsExpirationJoinGoods(SaJoinSpecification):
     def __init__(self):
         super().__init__(joinedload(GoodsExpirationOrm.goods))

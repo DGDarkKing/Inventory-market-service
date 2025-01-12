@@ -10,6 +10,7 @@ from conditions.trading_floor_deliveries import (
     TradingFloorDeliveryDecommissioned,
 )
 from conditions.trading_goods_aggregation import TradingGoodsAggregationById
+from joins.expiration_goods import GoodsExpirationJoinGoods
 from models.goods_expirations import GoodsExpirationOrm
 from models.trading_floor_deliveries import TradingFloorDeliveryOrm
 from models.trading_floor_goods import TradingFloorGoodsAggregationOrm
@@ -84,19 +85,24 @@ class TradingFloorService:
     ) -> TradingGoodsFullData:
         expiration_goods: GoodsExpirationOrm | None = (
             await self.__uow.goods_expiration_repo.get(
-                GoodsExpirationById(delivery_goods.goods_expiration_id)
+                GoodsExpirationById(delivery_goods.goods_expiration_id),
+                GoodsExpirationJoinGoods(),
             )
         )
         if not expiration_goods:
-            raise ValueError(f"goods on wharehouse {delivery_goods.id} non-exists")
+            raise ValueError(f"goods on warehouse {delivery_goods.id} non-exists")
         if expiration_goods.expiration_time >= datetime.utcnow():
             raise ValueError(
                 f"expiration time {delivery_goods.expiration_time.isoformat()} expired"
             )
+        if not expiration_goods.goods.is_ready_for_sale:
+            raise ValueError(
+                f"goods on warehouse {delivery_goods.id} is not ready for sale"
+            )
 
         aggregation: TradingFloorGoodsAggregationOrm | None = await (
             self.__uow.trading_floor_goods_aggregation_repo.get(
-                TradingGoodsAggregationById(expiration_goods.goods_id)
+                TradingGoodsAggregationById(expiration_goods.goods_id),
             )
         )
         aggregation.remains += delivery_goods.quantity
