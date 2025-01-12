@@ -21,7 +21,7 @@ async def get_goods_expiration(
     warehouse_service: WarehouseServiceDeps,
 ) -> GoodsExpirationFullData | None:
     async with uow:
-        result = warehouse_service.get_goods(id)
+        result = await warehouse_service.get_goods(id)
         await uow.commit()
     return result
 
@@ -37,7 +37,7 @@ async def get_goods_expiration_list(
     warehouse_service: WarehouseServiceDeps,
 ) -> list[GoodsExpiration]:
     async with uow:
-        result = warehouse_service.get_goods_list(goods_expiration_filter)
+        result = await warehouse_service.get_goods_list(goods_expiration_filter)
         await uow.commit()
     return result
 
@@ -50,7 +50,7 @@ async def get_expired_goods(
     warehouse_service: WarehouseServiceDeps,
 ) -> list[GoodsExpiration]:
     async with uow:
-        result = warehouse_service.get_expired_goods_list(goods_expiration_filter)
+        result = await warehouse_service.get_expired_goods_list(goods_expiration_filter)
         await uow.commit()
     return result
 
@@ -61,7 +61,7 @@ async def get_product_count(
     warehouse_service: WarehouseServiceDeps,
 ) -> list[ProductCount]:
     async with uow:
-        result = warehouse_service.get_product_count()
+        result = await warehouse_service.get_product_count()
         await uow.commit()
     return result
 
@@ -74,7 +74,7 @@ async def create_goods_expiration(
     warehouse_service: WarehouseServiceDeps,
 ) -> GoodsExpirationFullData:
     async with uow:
-        result = warehouse_service.accept_supply_goods(user.id, goods_expiration)
+        result = await warehouse_service.accept_supply_goods(user.id, goods_expiration)
         await uow.commit()
     return result
 
@@ -87,6 +87,6 @@ async def decommission_goods_expiration(
     warehouse_service: WarehouseServiceDeps,
 ) -> GoodsExpiration:
     async with uow:
-        goods = warehouse_service.decommission_goods(user.id, id)
+        goods = await warehouse_service.decommission_goods(user.id, id)
         await uow.commit()
     return goods

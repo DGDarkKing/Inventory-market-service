@@ -17,9 +17,6 @@ app.include_router(
 app.include_router(
     trading_floor_router,
 )
-app.include_router(
-    trading_floor_router,
-)
 
 
 if __name__ == "__main__":
